@@ -15,3 +15,5 @@ createRoot(document.getElementById("root")).render(
     </AuthProvider>
   </StrictMode>
 );
+// firebase deploy
+// npm run build
