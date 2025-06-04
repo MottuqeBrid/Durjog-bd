@@ -53,7 +53,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="navbar px-4 py-2 sticky top-0 z-50 bg-base-100 shadow-[6px_6px_12px_#c5c5c5,_-6px_-6px_12px_#ffffff] dark:shadow-[4px_4px_15px_#1f1f1f,_-4px_-4px_15px_#2f2f2f] rounded-b-xl">
+    <div className="navbar px-4 py-2 sticky top-0 z-50 bg-base-100 shadow-[6px_6px_12px_#c5c5c5,_-6px_-6px_12px_#ffffff] dark:shadow-[4px_4px_15px_#1f1f1f,_-4px_-4px_15px_#2f2f2f] mb-8">
       {/* Mobile Dropdown */}
       <div className="dropdown lg:hidden">
         <label tabIndex={0} className="btn btn-ghost">

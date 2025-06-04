@@ -1,20 +1,18 @@
 /* In your index.css or global style */
 .neumorphism {
-  box-shadow:
-    4px 4px 10px #c5c5c5,
-    -4px -4px 10px #ffffff;
+  box-shadow: 4px 4px 10px #c5c5c5, -4px -4px 10px #ffffff;
   border-radius: 1rem;
   transition: all 0.2s ease-in-out;
 }
 .neumorphism:focus,
 .neumorphism:hover {
-  box-shadow:
-    inset 4px 4px 10px #c5c5c5,
-    inset -4px -4px 10px #ffffff;
+  box-shadow: inset 4px 4px 10px #c5c5c5, inset -4px -4px 10px #ffffff;
 }
-
-
+/* Add in your global styles (e.g., index.css) */
+.neumorphism {
+  box-shadow: 8px 8px 16px #c5c5c5, -8px -8px 16px #ffffff;
+  border-radius: 20px;
+}
 
 @import "tailwindcss";
 @plugin "daisyui";
-

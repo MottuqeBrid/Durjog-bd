@@ -6,11 +6,13 @@ import ThemeContext from "../../context/themeContext";
 const RootLayout = () => {
   const { theme } = use(ThemeContext);
   return (
-    <div data-theme={theme} className="min-h-screen flex flex-col">
-      <Navbar />
-      <main>
-        <Outlet />
-      </main>
+    <div data-theme={theme} className="w-full min-h-screen flex flex-col">
+      <div className="max-w-7xl mx-auto w-full">
+        <Navbar />
+        <main>
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };
