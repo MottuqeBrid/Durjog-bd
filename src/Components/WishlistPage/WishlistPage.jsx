@@ -1,31 +1,34 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
-import useWishlistApi from '../../api/useWishlistApi';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
-import { motion } from 'framer-motion';
-import { toast } from 'react-hot-toast';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Link } from "react-router";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
+import { toast } from "react-hot-toast";
+import useWishlistApi from "../../api/useWishlistApi";
+import useAuth from "../../Hooks/useAuth";
 
-const WishlistPage = ({ user }) => {
+const WishlistPage = () => {
   const queryClient = useQueryClient();
-  const { getWishlistByEmail, removeFromWishlist } = useWishlistApi();
+  const { removeFromWishlist, getWishlistItemsApi } = useWishlistApi();
+  const { user } = useAuth();
 
   const { data: wishlist = [], isLoading } = useQuery({
-    queryKey: ['wishlist', user?.email],
+    queryKey: ["wishlist", user?.email],
     queryFn: async () => {
-      const res = await getWishlistByEmail(user.email);
+      const res = await getWishlistItemsApi(user.uid);
       return res.data;
     },
-    enabled: !!user?.email
+    enabled: !!user?.email,
   });
 
   const mutation = useMutation({
-    mutationFn: async (blogId) => await removeFromWishlist(user.email, blogId),
+    mutationFn: async (blogId) => await removeFromWishlist(blogId, user?.uid),
     onSuccess: () => {
-      queryClient.invalidateQueries(['wishlist', user?.email]);
-      toast.success('Removed from wishlist');
+      queryClient.invalidateQueries(["wishlist", user?.email]);
+      toast.success("Removed from wishlist");
     },
-    onError: () => toast.error('Failed to remove')
+    onError: () => toast.error("Failed to remove"),
   });
 
   return (
@@ -39,7 +42,9 @@ const WishlistPage = ({ user }) => {
           ))}
         </div>
       ) : wishlist.length === 0 ? (
-        <p className="text-center text-lg">You haven't wishlisted any blog yet.</p>
+        <p className="text-center text-lg">
+          You haven't wishlisted any blog yet.
+        </p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {wishlist.map((blog) => (
@@ -48,7 +53,7 @@ const WishlistPage = ({ user }) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
-              className="neumorphic p-4 rounded-xl shadow-md"
+              className="neumorphic p-4 rounded-xl shadow-md neumorphism neumorphic-card bg-base-100"
             >
               <img
                 src={blog.image}
@@ -56,10 +61,15 @@ const WishlistPage = ({ user }) => {
                 className="rounded-xl mb-3 h-40 w-full object-cover"
               />
               <h3 className="text-xl font-semibold mb-1">{blog.title}</h3>
-              <p className="text-sm text-gray-600 mb-2">Category: {blog.category}</p>
+              <p className="text-sm text-gray-600 mb-2">
+                Category: {blog.category}
+              </p>
               <p className="line-clamp-3 mb-3">{blog.shortDesc}</p>
               <div className="flex justify-between items-center">
-                <Link to={`/blog/${blog._id}`} className="btn btn-sm btn-primary">
+                <Link
+                  to={`/blog/${blog._id}`}
+                  className="btn btn-sm btn-primary"
+                >
                   Details
                 </Link>
                 <button
@@ -78,11 +88,3 @@ const WishlistPage = ({ user }) => {
 };
 
 export default WishlistPage;
-
-/* Neumorphism CSS (add to your global or module CSS):
-.neumorphic {
-  background: #e0e0e0;
-  border-radius: 1rem;
-  box-shadow: 8px 8px 16px #bebebe, -8px -8px 16px #ffffff;
-}
-*/
