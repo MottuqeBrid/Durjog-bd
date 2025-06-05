@@ -7,12 +7,16 @@ import { BsArrowRight } from "react-icons/bs";
 import Swal from "sweetalert2";
 import useBlogApi from "../../api/useBlogApi";
 import HomepageLoader from "../Loader/HomepageLoader";
+import useWishlistApi from "../../api/useWishlistApi";
+import useAuth from "../../Hooks/useAuth";
 
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const { getRecentBlogsApi } = useBlogApi();
+  const { addWishlistItemApi } = useWishlistApi();
+  const { user } = useAuth();
 
   useEffect(() => {
     // Fetch the latest 6 blogs from your backend or Firebase
@@ -25,7 +29,8 @@ const Home = () => {
         console.error(err);
         setLoading(false);
       });
-  }, [getRecentBlogsApi]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubscribe = (e) => {
     e.preventDefault();
@@ -33,14 +38,30 @@ const Home = () => {
     e.target.reset();
   };
 
-  const handleWishlist = (blogId) => {
-    // Implement wishlist functionality here
-    console.log(blogId);
-    Swal.fire(
-      "Added to Wishlist",
-      "This blog has been added to your wishlist.",
-      "success"
-    );
+  const handleWishlist = async (blogId) => {
+    const res = await addWishlistItemApi(blogId, user);
+    if (res.status === 200) {
+      Swal.fire(
+        "Added to Wishlist",
+        "This blog has been added to your wishlist.",
+        "success"
+      );
+      getRecentBlogsApi()
+        .then((data) => {
+          setBlogs(data.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error(err);
+          setLoading(false);
+        });
+    } else {
+      Swal.fire(
+        "Error",
+        "There was an issue adding this blog to your wishlist.",
+        "error"
+      );
+    }
   };
 
   return (
@@ -98,8 +119,8 @@ const Home = () => {
                     </h3>
                     <p className="text-sm text-base-content">
                       {blog?.shortDesc?.length > 100
-                  ? blog.shortDesc.slice(0, 100) + "..."
-                  : blog.shortDesc}
+                        ? blog.shortDesc.slice(0, 100) + "..."
+                        : blog.shortDesc}
                     </p>
                     <div className="card-actions justify-between mt-4">
                       <Link
@@ -109,7 +130,8 @@ const Home = () => {
                         Details <BsArrowRight className="ml-1" />
                       </Link>
                       <button
-                        onClick={() => handleWishlist(blog.id)}
+                        disabled={!user || blog?.wishlist?.includes(user?.uid)}
+                        onClick={() => handleWishlist(blog._id)}
                         className="btn btn-sm btn-outline btn-secondary"
                       >
                         <AiOutlineHeart className="mr-1" /> Wishlist

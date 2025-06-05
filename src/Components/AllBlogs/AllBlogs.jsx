@@ -4,6 +4,9 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import useBlogApi from "../../api/useBlogApi";
 import { formatRelative } from "date-fns";
+import Swal from "sweetalert2";
+import useWishlistApi from "../../api/useWishlistApi";
+import useAuth from "../../Hooks/useAuth";
 
 const AllBlogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -12,6 +15,8 @@ const AllBlogs = () => {
   const [category, setCategory] = useState("");
   const [search, setSearch] = useState("");
   const { getAllBlogsApi } = useBlogApi();
+  const { addWishlistItemApi } = useWishlistApi();
+  const { user } = useAuth();
 
   useEffect(() => {
     getAllBlogsApi().then((data) => {
@@ -31,19 +36,26 @@ const AllBlogs = () => {
     setFilteredBlogs(filter);
   }, [search, category, blogs]);
 
-  const handleWishlist = (blog) => {
-    fetch(`https://your-server-url.com/api/wishlist`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify(blog),
-    })
-      .then((res) => res.json())
-      .then(() => {
-        alert("Added to wishlist");
+  const handleWishlist = async (blog) => {
+    const res = await addWishlistItemApi(blog._id, user);
+    if (res.status === 200) {
+      Swal.fire(
+        "Added to Wishlist",
+        "This blog has been added to your wishlist.",
+        "success"
+      );
+      getAllBlogsApi().then((data) => {
+        setBlogs(data.data);
+        setFilteredBlogs(data.data);
+        setLoading(false);
       });
+    } else {
+      Swal.fire(
+        "Error",
+        "There was an issue adding this blog to your wishlist.",
+        "error"
+      );
+    }
   };
 
   return (
@@ -89,7 +101,7 @@ const AllBlogs = () => {
           {filteredBlogs.map((blog) => (
             <div
               key={blog._id}
-              className="p-4 rounded-2xl neumorphic-card shadow-sm bg-base-100"
+              className="p-4 rounded-2xl neumorphism neumorphic-card shadow-sm bg-base-100"
             >
               <img
                 src={blog?.image}
@@ -123,6 +135,7 @@ const AllBlogs = () => {
                   Details
                 </Link>
                 <button
+                  disabled={!user || blog?.wishlist?.includes(user?.uid)}
                   onClick={() => handleWishlist(blog)}
                   className="btn btn-sm btn-success"
                 >
