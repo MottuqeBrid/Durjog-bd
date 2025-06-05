@@ -85,7 +85,7 @@ const AddBlog = () => {
     >
       <form
         onSubmit={handleSubmit}
-        className="bg-base-100 p-8 rounded-2xl shadow-lg neumorphism max-w-2xl w-full space-y-4"
+        className="bg-base-100 p-8 my-8 rounded-2xl shadow-lg neumorphism max-w-2xl w-full space-y-4"
       >
         <h2 className="text-3xl font-bold text-center text-primary">
           Add a New Blog 📝

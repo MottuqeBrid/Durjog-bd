@@ -37,6 +37,10 @@ const Register = () => {
       setError("Password must contain at least  one number.");
       return;
     }
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      setError("Password must contain at least one special character.");
+      return;
+    }
 
     try {
       await signUp(email, password, name, photoURL);

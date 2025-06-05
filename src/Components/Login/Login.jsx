@@ -37,7 +37,9 @@ const Login = () => {
     try {
       await googleSignIn();
       await Swal.fire(
-        `Welcome Back! ${user?.displayName}`,
+        `Welcome Back! ${
+          user?.displayName === undefined ? "" : user?.displayName
+        }`,
         "You are now logged in.",
         "success"
       );
