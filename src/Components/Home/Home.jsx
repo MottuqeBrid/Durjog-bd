@@ -35,6 +35,7 @@ const Home = () => {
 
   const handleWishlist = (blogId) => {
     // Implement wishlist functionality here
+    console.log(blogId);
     Swal.fire(
       "Added to Wishlist",
       "This blog has been added to your wishlist.",
@@ -96,11 +97,13 @@ const Home = () => {
                       {blog.title}
                     </h3>
                     <p className="text-sm text-base-content">
-                      {blog.shortDesc}
+                      {blog?.shortDesc?.length > 100
+                  ? blog.shortDesc.slice(0, 100) + "..."
+                  : blog.shortDesc}
                     </p>
                     <div className="card-actions justify-between mt-4">
                       <Link
-                        to={`/blog/${blog.id}`}
+                        to={`/blog/${blog._id}`}
                         className="btn btn-sm btn-outline btn-primary"
                       >
                         Details <BsArrowRight className="ml-1" />

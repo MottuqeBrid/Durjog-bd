@@ -5,6 +5,9 @@ import Login from "../Components/Login/Login";
 import AddBlog from "../Components/AddBlog/AddBlog";
 import Home from "./../Components/Home/Home";
 import AllBlogs from "../Components/AllBlogs/AllBlogs";
+import BlogDetails from "../Components/BlogDetails/BlogDetails";
+import UpdateBlog from "../Components/UpdateBlog/UpdateBlog";
+import FeaturedBlogs from "../Components/FeaturedBlogs/FeaturedBlogs";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +25,18 @@ export const router = createBrowserRouter([
       {
         path: "all-blogs",
         element: <AllBlogs />,
+      },
+      {
+        path: "blog/:id",
+        element: <BlogDetails />,
+      },
+      {
+        path: "update-blog/:id",
+        element: <UpdateBlog />,
+      },
+      {
+        path: "featured",
+        element: <FeaturedBlogs />,
       },
       {
         path: "register",

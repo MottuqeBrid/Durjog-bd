@@ -8,10 +8,30 @@ const useBlogApi = () => {
   const getRecentBlogsApi = () => {
     return axiosSecure.get("/blog-posts?size=6");
   };
-  const getAllBlogsApi = (from, to) => {
-    return axiosSecure.get(`/blog-posts?size=0`);
+  const getAllBlogsApi = () => {
+    return axiosSecure.get(`/blog-posts`);
   };
-  return { addBlogApi, getRecentBlogsApi, getAllBlogsApi };
+  const getSingleBlog = (id) => {
+    return axiosSecure.get(`/blog/${id}`);
+  };
+  const getBlogComments = (id) => {
+    return axiosSecure.get(`/blog/${id}/comments`);
+  };
+  const PostBlogComment = (id, data) => {
+    return axiosSecure.post(`/blog/${id}/comment`, data);
+  };
+  const updateBlog = (id, data) => {
+    return axiosSecure.patch(`/blog/${id}`, data);
+  };
+  return {
+    addBlogApi,
+    getRecentBlogsApi,
+    getAllBlogsApi,
+    getSingleBlog,
+    getBlogComments,
+    PostBlogComment,
+    updateBlog,
+  };
 };
 
 export default useBlogApi;

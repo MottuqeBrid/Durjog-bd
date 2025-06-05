@@ -1,52 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
-import useAuth from "./../../Hooks/useAuth";
 import useBlogApi from "../../api/useBlogApi";
+import { useParams } from "react-router";
 
-const AddBlog = () => {
-  const { user } = useAuth();
-  const { addBlogApi } = useBlogApi();
+const UpdateBlog = () => {
+  const { id } = useParams();
+  const { updateBlog, getSingleBlog } = useBlogApi();
 
   const [blogData, setBlogData] = useState({
-    user: {
-      id: "",
-      name: "",
-      email: "",
-    },
     title: "",
     image: "",
     category: "",
     shortDesc: "",
     longDesc: "",
-    comments: [],
-    commentsCount: 0,
   });
-
+  useEffect(() => {
+    getSingleBlog(id).then((data) => {
+      setBlogData({
+        ...data?.data,
+      });
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
   const handleChange = (e) => {
     setBlogData({ ...blogData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // You would POST blogData to the backend here
-
-    setBlogData((prev) => ({
-      ...prev,
-      user: {
-        id: user?.uid,
-        name: user?.displayName,
-        email: user?.email,
-      },
-    }));
 
     try {
-      const data = await addBlogApi(blogData);
-      if (data?.data?.insertedId) {
+      const data = await updateBlog(id, blogData);
+      console.log(data);
+      if (data?.data?.matchedCount) {
         Swal.fire({
           title: "Success!",
-          text: "Blog added successfully!",
+          text: "Blog updated successfully!",
           icon: "success",
           confirmButtonText: "OK",
         });
@@ -60,7 +51,7 @@ const AddBlog = () => {
       } else {
         Swal.fire({
           title: "Error!",
-          text: "Failed to add blog. Please try again.",
+          text: "Failed to update blog. Please try again.",
           icon: "error",
           confirmButtonText: "OK",
         });
@@ -68,14 +59,13 @@ const AddBlog = () => {
     } catch (error) {
       Swal.fire({
         title: "Error!",
-        text: "An error occurred while adding the blog. Please try again.",
+        text: "An error occurred while updating the blog. Please try again.",
         icon: "error",
         confirmButtonText: "OK",
       });
       console.log(error);
     }
   };
-
   return (
     <motion.div
       className="min-h-screen flex justify-center items-center bg-base-200 px-4"
@@ -183,4 +173,4 @@ const AddBlog = () => {
   );
 };
 
-export default AddBlog;
+export default UpdateBlog;

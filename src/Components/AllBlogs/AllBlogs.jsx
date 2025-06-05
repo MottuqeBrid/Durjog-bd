@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import useBlogApi from "../../api/useBlogApi";
+import { formatRelative } from "date-fns";
 
 const AllBlogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -13,13 +14,13 @@ const AllBlogs = () => {
   const { getAllBlogsApi } = useBlogApi();
 
   useEffect(() => {
-    getAllBlogsApi(0, 12).then((data) => {
-      console.log(data);
+    getAllBlogsApi().then((data) => {
       setBlogs(data.data);
       setFilteredBlogs(data.data);
       setLoading(false);
     });
-  }, [getAllBlogsApi]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const filter = blogs.filter(
@@ -58,10 +59,11 @@ const AllBlogs = () => {
           onChange={(e) => setCategory(e.target.value)}
         >
           <option value="">All Categories</option>
-          <option value="Tech">Tech</option>
-          <option value="Travel">Travel</option>
-          <option value="Food">Food</option>
-          <option value="Finance">Finance</option>
+          <option value="Cyclone">Cyclone</option>
+          <option value="Flood">Flood</option>
+          <option value="Earthquake">Earthquake</option>
+          <option value="Heatwave">Heatwave</option>
+          <option value="Drought">Drought</option>
         </select>
 
         <input
@@ -90,13 +92,29 @@ const AllBlogs = () => {
               className="p-4 rounded-2xl neumorphic-card shadow-sm bg-base-100"
             >
               <img
-                src={blog.image}
-                alt={blog.title}
+                src={blog?.image}
+                alt={blog?.title}
                 className="rounded-xl h-40 w-full object-cover mb-3"
               />
-              <h3 className="text-xl font-semibold">{blog.title}</h3>
-              <p className="text-sm text-gray-500 mb-2">{blog.category}</p>
-              <p className="text-sm mb-3">{blog?.shortDesc?.slice(0, 80)}...</p>
+              <h3 className="text-xl font-semibold">{blog?.title}</h3>
+              {blog?.createdAt && (
+                <p className="text-sm text-gray-500 mb-2">
+                  create on:{" "}
+                  {formatRelative(new Date(blog.createdAt), new Date())}
+                </p>
+              )}
+              {blog?.updatedAt && (
+                <p className="text-sm text-gray-500 mb-2">
+                  Last updated:{" "}
+                  {formatRelative(new Date(blog.updatedAt), new Date())}
+                </p>
+              )}
+              <p className="text-sm text-gray-500 mb-2">{blog?.category}</p>
+              <p className="text-sm mb-3">
+                {blog?.shortDesc?.length > 100
+                  ? blog.shortDesc.slice(0, 100) + "..."
+                  : blog.shortDesc}
+              </p>
               <div className="flex justify-between items-center">
                 <Link
                   to={`/blog/${blog._id}`}
