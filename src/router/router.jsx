@@ -9,11 +9,14 @@ import BlogDetails from "../Components/BlogDetails/BlogDetails";
 import UpdateBlog from "../Components/UpdateBlog/UpdateBlog";
 import FeaturedBlogs from "../Components/FeaturedBlogs/FeaturedBlogs";
 import WishlistPage from "../Components/WishlistPage/WishlistPage";
+import PrivateRouter from "./PrivateRouter";
+import NotFound from "./../Components/NotFound/NotFound";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: <NotFound />,
     children: [
       {
         index: true,
@@ -21,7 +24,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "add-blog",
-        element: <AddBlog />,
+        element: (
+          <PrivateRouter>
+            <AddBlog />
+          </PrivateRouter>
+        ),
       },
       {
         path: "all-blogs",
@@ -29,7 +36,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "wishlist",
-        element: <WishlistPage />,
+        element: (
+          <PrivateRouter>
+            <WishlistPage />
+          </PrivateRouter>
+        ),
       },
       {
         path: "blog/:id",
@@ -37,7 +48,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "update-blog/:id",
-        element: <UpdateBlog />,
+        element: (
+          <PrivateRouter>
+            <UpdateBlog />
+          </PrivateRouter>
+        ),
       },
       {
         path: "featured",

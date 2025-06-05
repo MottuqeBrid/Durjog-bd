@@ -50,6 +50,8 @@ const AuthProvider = ({ children }) => {
 
   // Logout
   const logout = () => {
+    localStorage.removeItem("Authorization");
+    localStorage.removeItem("access-token");
     setLoading(true);
     return signOut(auth);
   };
@@ -58,6 +60,10 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (loggedUser) => {
       setUser(loggedUser);
+      localStorage.setItem(
+        "Authorization",
+        loggedUser ? loggedUser.accessToken : ""
+      );
       setLoading(false);
     });
     return () => unsubscribe();

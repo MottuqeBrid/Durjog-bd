@@ -1,40 +1,45 @@
+import { useEffect } from "react";
 import axios from "axios";
 import useAuth from "./useAuth";
 
-const axiosInstance = axios.create({
+const axiosSecure = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
 });
 
 const useAxiosSecure = () => {
   const { user, logout } = useAuth();
 
-  axiosInstance.interceptors.request.use((config) => {
-    config.headers.authorization = `Bearer ${user?.accessToken}`;
-    config.headers.withCredentials = true; // Ensure cookies are sent with requests
-    return config;
-  });
-
-  // response interceptor
-  axiosInstance.interceptors.response.use(
-    (response) => {
-      return response;
-    },
-    (error) => {
-      console.log(error);
-      if (error.status === 401 || error.status === 403) {
-        logout()
-          .then(() => {
-            console.log("sign out user for 401 status code");
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+  useEffect(() => {
+    const reqId = axiosSecure.interceptors.request.use((config) => {
+      const token = user?.accessToken || localStorage.getItem("access-token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${
+          localStorage.getItem("Authorization") || token
+        }`;
       }
-      return Promise.reject(error);
-    }
-  );
+      return config;
+    });
 
-  return axiosInstance;
+    // RESPONSE
+    const resId = axiosSecure.interceptors.response.use(
+      (res) => res,
+      async (error) => {
+        const code = error.response?.status; 
+        if (code === 401 || code === 403) {
+          console.log(error);
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      axiosSecure.interceptors.request.eject(reqId);
+      axiosSecure.interceptors.response.eject(resId);
+    };
+  }, [user, logout]);
+
+  return axiosSecure;
 };
 
 export default useAxiosSecure;
