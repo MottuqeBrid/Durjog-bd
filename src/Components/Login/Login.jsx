@@ -3,11 +3,13 @@ import { Link, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const { login, googleSignIn, user } = useAuth();
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -59,13 +61,22 @@ const Login = () => {
             className="input input-bordered w-full neumorphism"
             required
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            className="input input-bordered w-full neumorphism"
-            required
-          />
+          <div className="join relative w-full ">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              className="input input-bordered w-full join-item neumorphism"
+              required
+            />
+            <button
+              type="button"
+              className="absolute w-8 top-1/2 right-4 z-10 transform -translate-y-1/2 text-gray-500"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+            </button>
+          </div>
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
