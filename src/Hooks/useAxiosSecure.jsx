@@ -9,7 +9,7 @@ const useAxiosSecure = () => {
   const { user, logout } = useAuth();
 
   axiosInstance.interceptors.request.use((config) => {
-    config.headers.authorization = `Bearer ${user.accessToken}`;
+    config.headers.authorization = `Bearer ${user?.accessToken}`;
     config.headers.withCredentials = true; // Ensure cookies are sent with requests
     return config;
   });

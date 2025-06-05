@@ -14,5 +14,17 @@
   border-radius: 20px;
 }
 
+.neumorphic-card {
+  box-shadow: 8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff;
+  transition: 0.3s ease-in-out;
+}
+.neumorphic-card:hover {
+  transform: translateY(-5px);
+}
+
+.neumorphic-input {
+  box-shadow: inset 8px 8px 16px #d1d9e6, inset -8px -8px 16px #ffffff;
+}
+
 @import "tailwindcss";
 @plugin "daisyui";

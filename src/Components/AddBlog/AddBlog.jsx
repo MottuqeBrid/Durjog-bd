@@ -2,9 +2,19 @@ import { useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
+import useAuth from "./../../Hooks/useAuth";
+import useBlogApi from "../../api/useBlogApi";
 
 const AddBlog = () => {
+  const { user } = useAuth();
+  const { addBlogApi } = useBlogApi();
+
   const [blogData, setBlogData] = useState({
+    user: {
+      id: "",
+      name: "",
+      email: "",
+    },
     title: "",
     image: "",
     category: "",
@@ -16,15 +26,52 @@ const AddBlog = () => {
     setBlogData({ ...blogData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // You would POST blogData to the backend here
-    Swal.fire(
-      "Blog Added",
-      "Your blog has been successfully posted!",
-      "success"
-    );
-    console.log(blogData);
+
+    setBlogData((prev) => ({
+      ...prev,
+      user: {
+        id: user?.uid,
+        name: user?.displayName,
+        email: user?.email,
+      },
+    }));
+
+    try {
+      const data = await addBlogApi(blogData);
+      if (data?.data?.insertedId) {
+        Swal.fire({
+          title: "Success!",
+          text: "Blog added successfully!",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+        setBlogData({
+          title: "",
+          image: "",
+          category: "",
+          shortDesc: "",
+          longDesc: "",
+        });
+      } else {
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to add blog. Please try again.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "An error occurred while adding the blog. Please try again.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+      console.log(error);
+    }
     // setBlogData({
     //   title: "",
     //   image: "",

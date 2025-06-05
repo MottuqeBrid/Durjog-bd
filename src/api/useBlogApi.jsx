@@ -1,12 +1,17 @@
-import React from "react";
 import useAxiosSecure from "./../Hooks/useAxiosSecure";
 
 const useBlogApi = () => {
   const axiosSecure = useAxiosSecure();
   const addBlogApi = (blogData) => {
-    return axiosSecure.post("/blogs", blogData);
+    return axiosSecure.post("/blog-post", blogData);
   };
-  return { addBlogApi };
+  const getRecentBlogsApi = () => {
+    return axiosSecure.get("/blog-posts?size=6");
+  };
+  const getAllBlogsApi = (from, to) => {
+    return axiosSecure.get(`/blog-posts?size=0`);
+  };
+  return { addBlogApi, getRecentBlogsApi, getAllBlogsApi };
 };
 
 export default useBlogApi;

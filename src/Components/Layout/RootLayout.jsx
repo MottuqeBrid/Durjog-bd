@@ -2,6 +2,7 @@ import { Outlet } from "react-router";
 import Navbar from "../Navbar/Navbar";
 import { use } from "react";
 import ThemeContext from "../../context/themeContext";
+import Footer from "../Footer/Footer";
 
 const RootLayout = () => {
   const { theme } = use(ThemeContext);
@@ -12,6 +13,7 @@ const RootLayout = () => {
         <main>
           <Outlet />
         </main>
+        <Footer />
       </div>
     </div>
   );

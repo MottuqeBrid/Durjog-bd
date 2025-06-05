@@ -3,6 +3,8 @@ import RootLayout from "../Components/Layout/RootLayout";
 import Register from "../Components/Register/Register";
 import Login from "../Components/Login/Login";
 import AddBlog from "../Components/AddBlog/AddBlog";
+import Home from "./../Components/Home/Home";
+import AllBlogs from "../Components/AllBlogs/AllBlogs";
 
 export const router = createBrowserRouter([
   {
@@ -11,11 +13,15 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <h1>hellow</h1>,
+        element: <Home />,
       },
       {
         path: "add-blog",
         element: <AddBlog />,
+      },
+      {
+        path: "all-blogs",
+        element: <AllBlogs />,
       },
       {
         path: "register",
