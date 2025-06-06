@@ -110,31 +110,49 @@ const Navbar = () => {
 
         {/* Auth Area */}
         {user ? (
-          <div className="flex items-center gap-3">
-            <div
-              className="tooltip tooltip-bottom"
-              data-tip={user?.displayName || "User"}
-            >
-              <img
-                src={
-                  user?.photoURL || "https://i.ibb.co/MBtjqXQ/default-user.png"
-                }
-                className="w-10 h-10 rounded-full border-2 border-primary"
-              />
+          <div className="flex items-center gap-3 ">
+            <div className="dropdown">
+              <label tabIndex={0} className="btn btn-ghost">
+                <div
+                  className="tooltip tooltip-bottom"
+                  data-tip={user?.displayName || "User"}
+                >
+                  <img
+                    src={
+                      user?.photoURL ||
+                      "https://i.ibb.co/MBtjqXQ/default-user.png"
+                    }
+                    className="w-10 h-10 rounded-full border-2 border-primary"
+                  />
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="menu dropdown-content right-0 mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li>
+                  <NavLink to="/profile" className="hover:text-primary">
+                    Profile
+                  </NavLink>
+                </li>
+                <li>
+                  <button
+                  onClick={async () => {
+                    await logout();
+                    Swal.fire(
+                      "Logged Out Successfully",
+                      "We hope to see you back soon!",
+                      "success"
+                    );
+                  }}
+                  className="hover:text-primary"
+                >
+                  {/* <FiLogOut className="mr-1" /> */}
+                   Logout
+                </button>
+                </li>
+              </ul>
             </div>
-            <button
-              onClick={async () => {
-                await logout();
-                Swal.fire(
-                  "Logged Out Successfully",
-                  "We hope to see you back soon!",
-                  "success"
-                );
-              }}
-              className="btn btn-outline btn-error btn-sm"
-            >
-              <FiLogOut className="mr-1" /> Logout
-            </button>
           </div>
         ) : (
           <>
