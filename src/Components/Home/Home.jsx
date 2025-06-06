@@ -9,6 +9,8 @@ import useBlogApi from "../../api/useBlogApi";
 import HomepageLoader from "../Loader/HomepageLoader";
 import useWishlistApi from "../../api/useWishlistApi";
 import useAuth from "../../Hooks/useAuth";
+import WritersSpotlight from "../WritersSpotlight/WritersSpotlight";
+import DisasterTips from "../DisasterTips/DisasterTips";
 
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
@@ -67,7 +69,7 @@ const Home = () => {
   return (
     <div className="bg-base-200">
       {/* Hero Section */}
-      <section className="hero min-h-[80vh] bg-base-100 shadow-inner rounded-b-3xl flex items-center justify-center px-6">
+      <section className="hero min-h-96 bg-base-100 shadow-inner rounded-b-3xl flex items-center justify-center px-6">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -142,6 +144,9 @@ const Home = () => {
               ))}
         </div>
       </section>
+
+      <WritersSpotlight />
+      <DisasterTips />
 
       {/* Newsletter Section */}
       <section className="py-16 px-6 bg-base-100 shadow-inner rounded-t-3xl">
