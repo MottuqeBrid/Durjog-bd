@@ -20,6 +20,13 @@ const useBlogApi = () => {
   const PostBlogComment = (id, data) => {
     return axiosSecure.post(`/blog/${id}/comment`, data);
   };
+  const getBlogBySearch = (title = "", category = "") => {
+    const params = new URLSearchParams();
+    if (!title && !category) return getAllBlogsApi();
+    if (title) params.append("title", title);
+    if (category) params.append("category", category);
+    return axiosSecure.get(`/blog/search?${params.toString()}`);
+  };
   const updateBlog = (id, data) => {
     return axiosSecure.patch(`/blog/${id}`, data);
   };
@@ -31,6 +38,7 @@ const useBlogApi = () => {
     getBlogComments,
     PostBlogComment,
     updateBlog,
+    getBlogBySearch,
   };
 };
 

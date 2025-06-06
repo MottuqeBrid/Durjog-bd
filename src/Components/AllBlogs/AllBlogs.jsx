@@ -7,34 +7,34 @@ import { formatRelative } from "date-fns";
 import Swal from "sweetalert2";
 import useWishlistApi from "../../api/useWishlistApi";
 import useAuth from "../../Hooks/useAuth";
+import NoBlogsFound from "../NoBlogsFound/NoBlogsFound";
 
 const AllBlogs = () => {
-  const [blogs, setBlogs] = useState([]);
+  // const [blogs, setBlogs] = useState([]);
   const [filteredBlogs, setFilteredBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("");
   const [search, setSearch] = useState("");
-  const { getAllBlogsApi } = useBlogApi();
+  const { getBlogBySearch } = useBlogApi();
   const { addWishlistItemApi } = useWishlistApi();
   const { user } = useAuth();
 
   useEffect(() => {
-    getAllBlogsApi().then((data) => {
-      setBlogs(data.data);
+    getBlogBySearch().then((data) => {
+      // setBlogs(data.data);
       setFilteredBlogs(data.data);
       setLoading(false);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const searchBlog = async () => {
+    const filter = await getBlogBySearch(search.toLowerCase(), category);
+    setFilteredBlogs(filter.data);
+  };
   useEffect(() => {
-    const filter = blogs.filter(
-      (blog) =>
-        blog.title.toLowerCase().includes(search.toLowerCase()) &&
-        (category === "" || blog.category === category)
-    );
-    setFilteredBlogs(filter);
-  }, [search, category, blogs]);
+    searchBlog();
+  }, [search, category]);
 
   const handleWishlist = async (blog) => {
     const res = await addWishlistItemApi(blog._id, user);
@@ -44,11 +44,7 @@ const AllBlogs = () => {
         "This blog has been added to your wishlist.",
         "success"
       );
-      getAllBlogsApi().then((data) => {
-        setBlogs(data.data);
-        setFilteredBlogs(data.data);
-        setLoading(false);
-      });
+      searchBlog();
     } else {
       Swal.fire(
         "Error",
@@ -98,52 +94,56 @@ const AllBlogs = () => {
         </div>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredBlogs.map((blog) => (
-            <div
-              key={blog._id}
-              className="p-4 rounded-2xl neumorphism neumorphic-card shadow-sm bg-base-100"
-            >
-              <img
-                src={blog?.image}
-                alt={blog?.title}
-                className="rounded-xl h-40 w-full object-cover mb-3"
-              />
-              <h3 className="text-xl font-semibold">{blog?.title}</h3>
-              {blog?.createdAt && (
-                <p className="text-sm text-gray-500 mb-2">
-                  create on:{" "}
-                  {formatRelative(new Date(blog.createdAt), new Date())}
+          {filteredBlogs.length > 0 ? (
+            filteredBlogs.map((blog) => (
+              <div
+                key={blog._id}
+                className="p-4 rounded-2xl neumorphism neumorphic-card shadow-sm bg-base-100"
+              >
+                <img
+                  src={blog?.image}
+                  alt={blog?.title}
+                  className="rounded-xl h-40 w-full object-cover mb-3"
+                />
+                <h3 className="text-xl font-semibold">{blog?.title}</h3>
+                {blog?.createdAt && (
+                  <p className="text-sm text-gray-500 mb-2">
+                    create on:{" "}
+                    {formatRelative(new Date(blog.createdAt), new Date())}
+                  </p>
+                )}
+                {blog?.updatedAt && (
+                  <p className="text-sm text-gray-500 mb-2">
+                    Last updated:{" "}
+                    {formatRelative(new Date(blog.updatedAt), new Date())}
+                  </p>
+                )}
+                <p className="text-sm text-gray-500 mb-2">{blog?.category}</p>
+                <p className="text-sm mb-3">
+                  {blog?.shortDesc?.length > 100
+                    ? blog.shortDesc.slice(0, 100) + "..."
+                    : blog.shortDesc}
                 </p>
-              )}
-              {blog?.updatedAt && (
-                <p className="text-sm text-gray-500 mb-2">
-                  Last updated:{" "}
-                  {formatRelative(new Date(blog.updatedAt), new Date())}
-                </p>
-              )}
-              <p className="text-sm text-gray-500 mb-2">{blog?.category}</p>
-              <p className="text-sm mb-3">
-                {blog?.shortDesc?.length > 100
-                  ? blog.shortDesc.slice(0, 100) + "..."
-                  : blog.shortDesc}
-              </p>
-              <div className="flex justify-between items-center">
-                <Link
-                  to={`/blog/${blog._id}`}
-                  className="btn btn-sm btn-outline btn-primary"
-                >
-                  Details
-                </Link>
-                <button
-                  disabled={!user || blog?.wishlist?.includes(user?.uid)}
-                  onClick={() => handleWishlist(blog)}
-                  className="btn btn-sm btn-success"
-                >
-                  Wishlist 💖
-                </button>
+                <div className="flex justify-between items-center">
+                  <Link
+                    to={`/blog/${blog._id}`}
+                    className="btn btn-sm btn-outline btn-primary"
+                  >
+                    Details
+                  </Link>
+                  <button
+                    disabled={!user || blog?.wishlist?.includes(user?.uid)}
+                    onClick={() => handleWishlist(blog)}
+                    className="btn btn-sm btn-success"
+                  >
+                    Wishlist 💖
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <NoBlogsFound />
+          )}
         </div>
       )}
     </div>

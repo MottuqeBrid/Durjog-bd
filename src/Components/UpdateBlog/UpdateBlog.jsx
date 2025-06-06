@@ -22,7 +22,7 @@ const UpdateBlog = () => {
         ...data?.data,
       });
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
   const handleChange = (e) => {
     setBlogData({ ...blogData, [e.target.name]: e.target.value });
@@ -33,7 +33,6 @@ const UpdateBlog = () => {
 
     try {
       const data = await updateBlog(id, blogData);
-      console.log(data);
       if (data?.data?.matchedCount) {
         Swal.fire({
           title: "Success!",
