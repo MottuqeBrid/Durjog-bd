@@ -11,6 +11,7 @@ import FeaturedBlogs from "../Components/FeaturedBlogs/FeaturedBlogs";
 import WishlistPage from "../Components/WishlistPage/WishlistPage";
 import PrivateRouter from "./PrivateRouter";
 import NotFound from "./../Components/NotFound/NotFound";
+import Profile from "../Components/Profile/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -57,6 +58,14 @@ export const router = createBrowserRouter([
       {
         path: "featured",
         element: <FeaturedBlogs />,
+      },
+      {
+        path: "profile",
+        element: (
+          <PrivateRouter>
+            <Profile />
+          </PrivateRouter>
+        ),
       },
       {
         path: "register",

@@ -47,6 +47,13 @@ const AuthProvider = ({ children }) => {
     const provider = new GoogleAuthProvider();
     return signInWithPopup(auth, provider);
   };
+  // update profile
+  const profileUpdate = (name, photoURL) => {
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photoURL,
+    });
+  };
 
   // Logout
   const logout = () => {
@@ -76,6 +83,7 @@ const AuthProvider = ({ children }) => {
     login,
     logout,
     googleSignIn,
+    profileUpdate,
   };
 
   return (
