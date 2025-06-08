@@ -1,12 +1,86 @@
-# React + Vite
+# 🌪️ Durjog BD - Blog Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Durjog BD** is a disaster-focused blog platform built to raise awareness and share knowledge about natural and human-made disasters in Bangladesh. Users can write blogs, explore featured content, add blogs to their wishlist, and manage their profiles.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌐 Live Website
 
-## Expanding the ESLint configuration
+👉 [Visit Durjog BD Live](https://durjog-bd.web.app)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🎯 Purpose
+
+To create an interactive, informative, and user-friendly blog platform centered around disasters, where users can:
+
+- Read and post blogs related to disaster awareness.
+- Save favorite blogs to their wishlist.
+- Update their user profile.
+- Discover tips and facts about disaster preparedness.
+
+---
+
+## 🚀 Key Features
+
+- 🔐 **Authentication** using Firebase
+- 📝 **Add, view, and manage blogs**
+- 💖 **Wishlist functionality**
+- 🔍 **Search and sorting with React Table**
+- 📊 **Featured blogs based on word count**
+- 🧠 **Disaster facts and tips section**
+- 👤 **Profile update with photo and name**
+- 🎨 **Neumorphism UI design**
+- 🌩️ **404 Not Found & Loading skeletons**
+- 🎬 **Smooth animations with Framer Motion**
+
+---
+
+## 📦 NPM Packages Used
+
+### Core Libraries
+
+- `react` – UI framework
+- `react-dom` – React DOM rendering
+- `vite` – Frontend build tool
+
+### UI & Styling
+
+- `tailwindcss` – Utility-first CSS framework
+- `daisyui` – Tailwind CSS components
+- `@emotion/react` – CSS-in-JS styling
+- `react-icons` – Icon library
+- `react-photo-view` – Image viewer
+
+### State & Data Handling
+
+- `@tanstack/react-query` – Data fetching & caching
+- `@tanstack/react-table` – Table rendering & sorting
+- `axios` – HTTP requests
+- `date-fns` – Date utility library
+
+### User Experience
+
+- `react-hot-toast` – Toast notifications
+- `react-loading-skeleton` – Loading placeholders
+- `sweetalert2` – Alert modals
+- `motion` – Animation support (Framer Motion wrapper)
+
+### Authentication
+
+- `firebase` – Firebase Auth, Firestore, Storage
+
+### Routing
+
+- `react-router` – Routing system
+
+---
+
+## 🛠️ Development Scripts
+
+```bash
+npm run dev        # Start development server
+npm run build      # Build for production
+npm run preview    # Preview production build
+npm run lint       # Run ESLint checks
+```

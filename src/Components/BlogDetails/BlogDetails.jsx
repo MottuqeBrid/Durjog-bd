@@ -13,7 +13,6 @@ const BlogDetails = () => {
   const [newComment, setNewComment] = useState("");
   const { user } = useAuth();
   const { getSingleBlog, getBlogComments, PostBlogComment } = useBlogApi();
-  // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,7 +40,7 @@ const BlogDetails = () => {
 
     if (res.data.insertedId) {
       setNewComment("");
-      setComments([...comments, commentData]);
+      navigate(0);
       toast.success("Comment added");
     }
   };
@@ -72,51 +71,53 @@ const BlogDetails = () => {
       </div>
 
       {/* Comments Section */}
-      <div className="bg-base-100 p-6 rounded-2xl neumorphic-card">
-        <h3 className="text-2xl font-semibold mb-4">Comments</h3>
-        {!isOwner ? (
-          <>
-            <textarea
-              className="textarea textarea-bordered w-full mb-2"
-              rows="3"
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              placeholder="Write a comment..."
-            ></textarea>
-            <button
-              onClick={handleComment}
-              className="btn btn-outline btn-success"
-            >
-              Submit Comment
-            </button>
-          </>
-        ) : (
-          <p className="text-warning">You cannot comment on your own blog.</p>
-        )}
+      {user && (
+        <div className="bg-base-100 p-6 rounded-2xl neumorphic-card">
+          <h3 className="text-2xl font-semibold mb-4">Comments</h3>
+          {!isOwner ? (
+            <>
+              <textarea
+                className="textarea textarea-bordered w-full mb-2"
+                rows="3"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Write a comment..."
+              ></textarea>
+              <button
+                onClick={handleComment}
+                className="btn btn-outline btn-success"
+              >
+                Submit Comment
+              </button>
+            </>
+          ) : (
+            <p className="text-warning">You cannot comment on your own blog.</p>
+          )}
 
-        {/* All Comments */}
-        <div className="mt-6 space-y-4">
-          {comments.map((cmt, index) => (
-            <div
-              key={index}
-              className="p-4 bg-base-200 rounded-xl flex items-start gap-4"
-            >
-              <img
-                src={cmt.userPhoto}
-                className="w-10 h-10 rounded-full object-cover border"
-                alt={cmt.userName}
-              />
-              <div>
-                <p className="font-semibold">{cmt.userName}</p>
-                <p className="text-sm text-gray-600">{cmt.comment}</p>
-                <p>
-                  <small>{formatRelative(cmt.createdAt, new Date())}</small>
-                </p>
+          {/* All Comments */}
+          <div className="mt-6 space-y-4">
+            {comments.map((cmt, index) => (
+              <div
+                key={index}
+                className="p-4 bg-base-200 rounded-xl flex items-start gap-4"
+              >
+                <img
+                  src={cmt.userPhoto}
+                  className="w-10 h-10 rounded-full object-cover border"
+                  alt={cmt.userName}
+                />
+                <div>
+                  <p className="font-semibold">{cmt.userName}</p>
+                  <p className="text-sm text-gray-600">{cmt.comment}</p>
+                  <p>
+                    <small>{formatRelative(cmt.createdAt, new Date())}</small>
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

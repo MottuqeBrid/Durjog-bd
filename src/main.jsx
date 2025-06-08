@@ -7,6 +7,8 @@ import { ThemeProvider } from "./context/themeContext.jsx";
 import AuthProvider from "./context/AuthContext.jsx";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { PhotoProvider } from "react-photo-view";
+import "react-photo-view/dist/react-photo-view.css";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -14,7 +16,9 @@ createRoot(document.getElementById("root")).render(
       <AuthProvider>
         <ThemeProvider>
           <Toaster />
-          <RouterProvider router={router} />
+          <PhotoProvider>
+            <RouterProvider router={router} />
+          </PhotoProvider>
         </ThemeProvider>
       </AuthProvider>
     </QueryClientProvider>

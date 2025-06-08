@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import useWishlistApi from "../../api/useWishlistApi";
 import useAuth from "../../Hooks/useAuth";
 import NoBlogsFound from "../NoBlogsFound/NoBlogsFound";
+import { PhotoView } from "react-photo-view";
 
 const AllBlogs = () => {
   // const [blogs, setBlogs] = useState([]);
@@ -100,11 +101,13 @@ const AllBlogs = () => {
                 key={blog._id}
                 className="p-4 rounded-2xl neumorphism neumorphic-card shadow-sm bg-base-100"
               >
-                <img
-                  src={blog?.image}
-                  alt={blog?.title}
-                  className="rounded-xl h-40 w-full object-cover mb-3"
-                />
+                <PhotoView src={blog?.image}>
+                  <img
+                    src={blog?.image}
+                    alt={blog?.title}
+                    className="rounded-xl h-40 w-full object-cover mb-3"
+                  />
+                </PhotoView>
                 <h3 className="text-xl font-semibold">{blog?.title}</h3>
                 {blog?.createdAt && (
                   <p className="text-sm text-gray-500 mb-2">
