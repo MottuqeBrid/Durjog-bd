@@ -21,7 +21,6 @@ const AllBlogs = () => {
 
   useEffect(() => {
     getBlogBySearch().then((data) => {
-      // setBlogs(data.data);
       setFilteredBlogs(data.data);
       setLoading(false);
     });
@@ -34,6 +33,7 @@ const AllBlogs = () => {
   };
   useEffect(() => {
     searchBlog();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, category]);
 
   const handleWishlist = async (blog) => {
@@ -94,7 +94,7 @@ const AllBlogs = () => {
         </div>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredBlogs.length > 0 ? (
+          {filteredBlogs.length > 0 &&
             filteredBlogs.map((blog) => (
               <div
                 key={blog._id}
@@ -140,12 +140,10 @@ const AllBlogs = () => {
                   </button>
                 </div>
               </div>
-            ))
-          ) : (
-            <NoBlogsFound />
-          )}
+            ))}
         </div>
       )}
+      {filteredBlogs.length === 0 && <NoBlogsFound />}
     </div>
   );
 };

@@ -18,12 +18,10 @@ const BlogDetails = () => {
 
   useEffect(() => {
     getSingleBlog(id).then((data) => {
-      // console.log(data);
       setBlog(data.data);
     });
 
     getBlogComments(id).then((data) => {
-      // console.log(data);
       setComments(data.data);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -39,9 +37,7 @@ const BlogDetails = () => {
       userPhoto: user?.photoURL,
       userEmail: user?.email,
     };
-    console.log(commentData);
     const res = await PostBlogComment(id, commentData);
-    console.log(res);
 
     if (res.data.insertedId) {
       setNewComment("");

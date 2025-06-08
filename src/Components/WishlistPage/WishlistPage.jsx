@@ -49,22 +49,22 @@ const WishlistPage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {wishlist.map((blog) => (
             <motion.div
-              key={blog._id}
+              key={blog?._id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
               className="neumorphic p-4 rounded-xl shadow-md neumorphism neumorphic-card bg-base-100"
             >
               <img
-                src={blog.image}
-                alt={blog.title}
+                src={blog?.image}
+                alt={blog?.title}
                 className="rounded-xl mb-3 h-40 w-full object-cover"
               />
-              <h3 className="text-xl font-semibold mb-1">{blog.title}</h3>
+              <h3 className="text-xl font-semibold mb-1">{blog?.title}</h3>
               <p className="text-sm text-gray-600 mb-2">
-                Category: {blog.category}
+                Category: {blog?.category}
               </p>
-              <p className="line-clamp-3 mb-3">{blog.shortDesc}</p>
+              <p className="line-clamp-3 mb-3">{blog?.shortDesc}</p>
               <div className="flex justify-between items-center">
                 <Link
                   to={`/blog/${blog._id}`}

@@ -11,9 +11,9 @@ const AddBlog = () => {
 
   const [blogData, setBlogData] = useState({
     user: {
-      id: "",
-      name: "",
-      email: "",
+      id: user.uid,
+      name: user.displayName,
+      email: user.email,
     },
     title: "",
     image: "",
@@ -30,16 +30,6 @@ const AddBlog = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // You would POST blogData to the backend here
-
-    setBlogData((prev) => ({
-      ...prev,
-      user: {
-        id: user?.uid,
-        name: user?.displayName,
-        email: user?.email,
-      },
-    }));
 
     try {
       const data = await addBlogApi(blogData);
@@ -51,6 +41,11 @@ const AddBlog = () => {
           confirmButtonText: "OK",
         });
         setBlogData({
+          user: {
+            id: user?.uid,
+            name: user?.displayName,
+            email: user?.email,
+          },
           title: "",
           image: "",
           category: "",

@@ -28,7 +28,9 @@ const Login = () => {
       await login(email, password);
       form.reset();
       Swal.fire(
-        `Welcome Back! ${user?.displayName}`,
+        `Welcome Back! ${
+          user?.displayName === undefined ? "" : user?.displayName
+        }`,
         "You are now logged in.",
         "success"
       );
