@@ -55,6 +55,14 @@ const AllBlogs = () => {
     }
   };
 
+  const handleSortOrder = (order) => {
+    const sortedBlogs = [...filteredBlogs].sort((a, b) => {
+      if (order === "asc") return a.title.localeCompare(b.title);
+      if (order === "desc") return b.title.localeCompare(a.title);
+    });
+    setFilteredBlogs(sortedBlogs);
+  };
+
   return (
     <div className="min-h-screen px-4 py-10 bg-base-200">
       <h2 className="text-3xl font-bold text-center mb-6 text-primary">
@@ -62,9 +70,9 @@ const AllBlogs = () => {
       </h2>
 
       {/* Filter + Search */}
-      <div className="flex flex-wrap justify-between gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 justify-between gap-4 mb-6">
         <select
-          className="select select-bordered bg-base-100 neumorphic-input"
+          className="select select-bordered bg-base-100 neumorphic-input w-full"
           onChange={(e) => setCategory(e.target.value)}
         >
           <option value="">All Categories</option>
@@ -75,10 +83,19 @@ const AllBlogs = () => {
           <option value="Drought">Drought</option>
         </select>
 
+        {/* sort by title */}
+        <select
+          className="select select-bordered bg-base-100 neumorphic-input w-full"
+          onChange={(e) => handleSortOrder(e.target.value)}
+        >
+          <option value="asc">Sort by Title (A-Z)</option>
+          <option value="desc">Sort by Title (Z-A)</option>
+        </select>
+
         <input
           type="text"
           placeholder="Search by title"
-          className="input input-bordered bg-base-100 neumorphic-input"
+          className="input input-bordered bg-base-100 col-span-2 md:col-span-1 neumorphic-input w-full"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -99,7 +116,7 @@ const AllBlogs = () => {
             filteredBlogs.map((blog) => (
               <div
                 key={blog._id}
-                className="p-4 rounded-2xl neumorphism neumorphic-card shadow-sm bg-base-100"
+                className="p-4 rounded-2xl neumorphism neumorphic-card shadow-sm bg-base-100 flex flex-col"
               >
                 <PhotoView src={blog?.image}>
                   <img
@@ -108,25 +125,27 @@ const AllBlogs = () => {
                     className="rounded-xl h-40 w-full object-cover mb-3"
                   />
                 </PhotoView>
-                <h3 className="text-xl font-semibold">{blog?.title}</h3>
-                {blog?.createdAt && (
-                  <p className="text-sm text-gray-500 mb-2">
-                    create on:{" "}
-                    {formatRelative(new Date(blog.createdAt), new Date())}
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold">{blog?.title}</h3>
+                  {blog?.createdAt && (
+                    <p className="text-sm text-gray-500 mb-2">
+                      create on:{" "}
+                      {formatRelative(new Date(blog.createdAt), new Date())}
+                    </p>
+                  )}
+                  {blog?.updatedAt && (
+                    <p className="text-sm text-gray-500 mb-2">
+                      Last updated:{" "}
+                      {formatRelative(new Date(blog.updatedAt), new Date())}
+                    </p>
+                  )}
+                  <p className="text-sm text-gray-500 mb-2">{blog?.category}</p>
+                  <p className="text-sm mb-3">
+                    {blog?.shortDesc?.length > 100
+                      ? blog.shortDesc.slice(0, 100) + "..."
+                      : blog.shortDesc}
                   </p>
-                )}
-                {blog?.updatedAt && (
-                  <p className="text-sm text-gray-500 mb-2">
-                    Last updated:{" "}
-                    {formatRelative(new Date(blog.updatedAt), new Date())}
-                  </p>
-                )}
-                <p className="text-sm text-gray-500 mb-2">{blog?.category}</p>
-                <p className="text-sm mb-3">
-                  {blog?.shortDesc?.length > 100
-                    ? blog.shortDesc.slice(0, 100) + "..."
-                    : blog.shortDesc}
-                </p>
+                </div>
                 <div className="flex justify-between items-center">
                   <Link
                     to={`/blog/${blog._id}`}

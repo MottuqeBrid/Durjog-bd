@@ -143,6 +143,11 @@ const Home = () => {
                 </motion.div>
               ))}
         </div>
+        <div className="flex justify-center mt-8">
+          <Link to="/all-blogs" className="btn btn-primary">
+            View All Blogs
+          </Link>
+        </div>
       </section>
 
       <WritersSpotlight />
