@@ -53,18 +53,22 @@ const WishlistPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
-              className="neumorphic p-4 rounded-xl shadow-md neumorphism neumorphic-card bg-base-100"
+              className="neumorphic p-4 rounded-xl flex flex-col   shadow-md neumorphism neumorphic-card  bg-base-100"
             >
               <img
                 src={blog?.image}
                 alt={blog?.title}
                 className="rounded-xl mb-3 h-40 w-full object-cover"
               />
-              <h3 className="text-xl font-semibold mb-1">{blog?.title}</h3>
-              <p className="text-sm text-gray-600 mb-2">
-                Category: {blog?.category}
-              </p>
-              <p className="line-clamp-3 mb-3">{blog?.shortDesc}</p>
+
+              <div className="flex-1">
+                <h3 className="text-xl font-semibold mb-1">{blog?.title}</h3>
+                <p className="text-sm text-gray-600 mb-2">
+                  Category: {blog?.category}
+                </p>
+
+                <p className="line-clamp-3 mb-3">{blog?.shortDesc}</p>
+              </div>
               <div className="flex justify-between items-center">
                 <Link
                   to={`/blog/${blog._id}`}

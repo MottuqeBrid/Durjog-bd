@@ -67,9 +67,9 @@ const Home = () => {
   };
 
   return (
-    <div className="bg-base-200">
+    <div className="bg-base-200 space-y-3">
       {/* Hero Section */}
-      <section className="hero min-h-96 bg-base-100 shadow-inner rounded-b-3xl flex items-center justify-center px-6">
+      <section className="hero bg-base-200 min-h-96   shadow-inner rounded-b-3xl flex items-center justify-center px-6">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}

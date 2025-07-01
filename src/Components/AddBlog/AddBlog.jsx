@@ -95,7 +95,7 @@ const AddBlog = () => {
             placeholder="Enter blog title"
             value={blogData.title}
             onChange={handleChange}
-            className="input w-full input-bordered input-primary shadow-inner"
+            className="input w-full input-bordered  shadow-inner"
             required
           />
         </div>
@@ -109,7 +109,7 @@ const AddBlog = () => {
             placeholder="https://example.com/image.jpg"
             value={blogData.image}
             onChange={handleChange}
-            className="input w-full input-bordered input-secondary shadow-inner"
+            className="input w-full input-bordered shadow-inner"
             required
           />
         </div>
@@ -121,7 +121,7 @@ const AddBlog = () => {
             name="category"
             value={blogData.category}
             onChange={handleChange}
-            className="select w-full select-bordered select-accent shadow-inner"
+            className="select w-full select-bordered shadow-inner"
             required
           >
             <option disabled value="">

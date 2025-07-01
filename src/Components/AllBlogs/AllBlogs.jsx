@@ -137,7 +137,7 @@ const AllBlogs = () => {
                   <button
                     disabled={!user || blog?.wishlist?.includes(user?.uid)}
                     onClick={() => handleWishlist(blog)}
-                    className="btn btn-sm btn-success"
+                    className="btn btn-sm btn-outline btn-secondary "
                   >
                     Wishlist 💖
                   </button>

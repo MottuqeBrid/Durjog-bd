@@ -53,117 +53,119 @@ const Navbar = () => {
   );
 
   return (
-    <div className="navbar px-4 py-2 sticky top-0 z-50 bg-base-100 shadow-[6px_6px_12px_#c5c5c5,_-6px_-6px_12px_#ffffff] dark:shadow-[4px_4px_15px_#1f1f1f,_-4px_-4px_15px_#2f2f2f] mb-8">
-      {/* Mobile Dropdown */}
-      <div className="dropdown lg:hidden">
-        <label tabIndex={0} className="btn btn-ghost">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+    <div className=" sticky top-0 z-50 bg-base-100 shadow-[6px_6px_12px_#c5c5c5,_-6px_-6px_12px_#ffffff] dark:shadow-[4px_4px_15px_#1f1f1f,_-4px_-4px_15px_#2f2f2f]">
+      <div className="max-w-7xl mx-auto w-full navbar px-4 py-2">
+        {/* Mobile Dropdown */}
+        <div className="dropdown lg:hidden">
+          <label tabIndex={0} className="btn btn-ghost">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </label>
+          <ul
+            tabIndex={0}
+            className="menu dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </label>
-        <ul
-          tabIndex={0}
-          className="menu dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
-        >
-          {navLinks}
-        </ul>
-      </div>
+            {navLinks}
+          </ul>
+        </div>
 
-      {/* Logo */}
-      <div className="navbar-start">
-        <Link to="/" className="text-2xl font-extrabold text-primary">
-          Durjog bd
-        </Link>
-      </div>
+        {/* Logo */}
+        <div className="navbar-start">
+          <Link to="/" className="text-2xl font-extrabold text-primary">
+            Durjog bd
+          </Link>
+        </div>
 
-      {/* Desktop Nav */}
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal gap-3 text-base font-medium">
-          {navLinks}
-        </ul>
-      </div>
+        {/* Desktop Nav */}
+        <div className="navbar-center hidden lg:flex">
+          <ul className="menu menu-horizontal gap-3 text-base font-medium">
+            {navLinks}
+          </ul>
+        </div>
 
-      {/* Theme Toggle + User Area */}
-      <div className="navbar-end flex items-center gap-3">
-        {/* Theme Toggle Button */}
-        <button
-          onClick={handleToggleTheme}
-          className="p-2 rounded-full shadow-inner bg-base-200 hover:bg-base-300 transition duration-300"
-        >
-          {theme === "light" ? (
-            <MdDarkMode className="w-5 h-5" />
-          ) : (
-            <MdOutlineWbSunny className="w-5 h-5" />
-          )}
-        </button>
+        {/* Theme Toggle + User Area */}
+        <div className="navbar-end flex items-center gap-3">
+          {/* Theme Toggle Button */}
+          <button
+            onClick={handleToggleTheme}
+            className="p-2 rounded-full shadow-inner bg-base-200 hover:bg-base-300 transition duration-300"
+          >
+            {theme === "light" ? (
+              <MdDarkMode className="w-5 h-5" />
+            ) : (
+              <MdOutlineWbSunny className="w-5 h-5" />
+            )}
+          </button>
 
-        {/* Auth Area */}
-        {user ? (
-          <div className="flex items-center gap-3 ">
-            <div className="dropdown">
-              <label tabIndex={0} className="btn btn-ghost">
-                <div
-                  className="tooltip tooltip-bottom"
-                  data-tip={user?.displayName || "User"}
+          {/* Auth Area */}
+          {user ? (
+            <div className="flex items-center gap-3 ">
+              <div className="dropdown">
+                <label tabIndex={0} className="btn btn-ghost">
+                  <div
+                    className="tooltip tooltip-bottom"
+                    data-tip={user?.displayName || "User"}
+                  >
+                    <img
+                      src={
+                        user?.photoURL ||
+                        "https://i.ibb.co/MBtjqXQ/default-user.png"
+                      }
+                      className="w-10 h-10 rounded-full border-2 border-primary"
+                    />
+                  </div>
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="menu dropdown-content right-0 mt-3 p-2 shadow bg-base-100 rounded-box w-52"
                 >
-                  <img
-                    src={
-                      user?.photoURL ||
-                      "https://i.ibb.co/MBtjqXQ/default-user.png"
-                    }
-                    className="w-10 h-10 rounded-full border-2 border-primary"
-                  />
-                </div>
-              </label>
-              <ul
-                tabIndex={0}
-                className="menu dropdown-content right-0 mt-3 p-2 shadow bg-base-100 rounded-box w-52"
-              >
-                <li>
-                  <NavLink to="/profile" className="hover:text-primary">
-                    Profile
-                  </NavLink>
-                </li>
-                <li>
-                  <button
-                  onClick={async () => {
-                    await logout();
-                    Swal.fire(
-                      "Logged Out Successfully",
-                      "We hope to see you back soon!",
-                      "success"
-                    );
-                  }}
-                  className="hover:text-primary"
-                >
-                  {/* <FiLogOut className="mr-1" /> */}
-                   Logout
-                </button>
-                </li>
-              </ul>
+                  <li>
+                    <NavLink to="/profile" className="hover:text-primary">
+                      Profile
+                    </NavLink>
+                  </li>
+                  <li>
+                    <button
+                      onClick={async () => {
+                        await logout();
+                        Swal.fire(
+                          "Logged Out Successfully",
+                          "We hope to see you back soon!",
+                          "success"
+                        );
+                      }}
+                      className="hover:text-primary"
+                    >
+                      {/* <FiLogOut className="mr-1" /> */}
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
-        ) : (
-          <>
-            <Link to="/login" className="btn btn-outline btn-primary btn-sm">
-              Login
-            </Link>
-            <Link to="/register" className="btn btn-primary btn-sm">
-              Register
-            </Link>
-          </>
-        )}
+          ) : (
+            <>
+              <Link to="/login" className="btn btn-outline btn-primary btn-sm">
+                Login
+              </Link>
+              <Link to="/register" className="btn btn-primary btn-sm">
+                Register
+              </Link>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
